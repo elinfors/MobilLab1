@@ -1,0 +1,14 @@
+{
+  "name": "Your Great Site",
+  "short_name": "Map",
+  "description": "Learn how to create and share something or other.",
+  "start_url": "lab1.html",
+  "background_color": "#000000",
+  "theme_color": "#0f4a73",
+  "display": "standalone",
+  "icons": [{
+    "src": "Unknown.jpg",
+    "sizes": "192x192",
+    "type": "image/jpg"
+  }]
+}

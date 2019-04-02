@@ -1,0 +1,27 @@
+
+ /* Always set the map height explicitly to define the size of the div
+* element that contains the map. */
+#map {
+    height: 60%;
+    width:80%;
+    margin-left: 10%;
+    margin-right: 2.5%;
+    }
+/* Optional: Makes the sample page fill the window. */
+html, body {
+    height: 100%;
+    width: 100%;
+    }
+
+#welcome{
+    display: block;   
+}
+
+#buttons{
+    text-align: center; 
+    margin-top: 20px;
+}
+
+#lovisa_btn, #curr_location, #elin_btn{
+    margin: 5px;
+}

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+      <link rel="stylesheet" href="Lab1.css">
+      <link rel="manifest" href="manifest.json">
+     
+    <title>test Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="application-name" content="Maps">
+
+
+    <link rel="icon" type="image/png" sizes="256x256" href="icon.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="256x256" href="icon.png">
+
+
+
+       
+  </head>
+  <body id="body">
+      <h1 id="welcome" style="color:gray; text-align:center; font-family: 'Franklin Gothic Medium'">Welcome</h1>
+      <div id="map"></div>
+      <div class="container">
+          <div id="buttons"></div>
+      </div>
+        <script>
+           var kth = {
+               lat: 59.3498092, 
+               lng: 18.0684758
+               }
+
+
+        function ZoomControl(controlDiv, map) {
+  
+            controlDiv.style.padding = '5px';
+
+            // Set CSS for the control wrapper
+            var controlWrapper = document.createElement('div');
+            controlWrapper.style.cursor = 'pointer';
+            controlWrapper.style.textAlign = 'center';
+            controlDiv.appendChild(controlWrapper);
+            
+            // Set  zoomInButton
+            var zoomInButton = document.createElement('button');
+            zoomInButton.setAttribute("class","btn btn-success");
+            zoomInButton.innerHTML='<i class="fas fa-search-plus"></i>';
+            controlWrapper.appendChild(zoomInButton);
+                
+            // Set zoomOutButton 
+            var zoomOutButton = document.createElement('div');
+            zoomOutButton.setAttribute("class","btn btn-success");
+            zoomOutButton.innerHTML='<i class="fas fa-search-minus"></i>';
+            controlWrapper.appendChild(zoomOutButton);
+
+            // Click event listener for zoomIn
+            google.maps.event.addDomListener(zoomInButton, 'click', function() {
+                map.setZoom(map.getZoom() + 1);
+            });
+                
+            // Click event listener for zoomOut
+            google.maps.event.addDomListener(zoomOutButton, 'click', function() {
+                map.setZoom(map.getZoom() - 1);
+            });  
+                
+        }
+
+        function PanControl(controlDiv, map){
+            controlDiv.style.padding = '5px';
+            // Set CSS for the control wrapper
+            var controlWrapper = document.createElement('div');
+            controlWrapper.style.cursor = 'pointer';
+            controlWrapper.style.textAlign = 'center';
+            controlDiv.appendChild(controlWrapper);
+            
+            //Set leftButton
+            var leftButton = document.createElement('button');
+            leftButton.setAttribute("class","btn btn-success");
+            leftButton.innerHTML='<i class="fas fa-arrow-left"></i>';
+            controlWrapper.appendChild(leftButton);
+
+            google.maps.event.addDomListener(leftButton, 'click', function() {
+                kth.lng -= 0.005;
+                map.panTo(kth);
+                console.log(kth);
+            });
+
+            //Set rightButton
+            var rightButton = document.createElement('button');
+            rightButton.setAttribute("class","btn btn-success");
+            rightButton.innerHTML='<i class="fas fa-arrow-right"></i>';
+            controlWrapper.appendChild(rightButton);
+
+            google.maps.event.addDomListener(rightButton, 'click', function() {
+                kth.lng += 0.005;
+                map.panTo(kth);
+                console.log(kth);
+            });
+
+            //Set upButton
+            var upButton = document.createElement('button');
+            upButton.setAttribute("class","btn btn-success");
+            upButton.innerHTML='<i class="fas fa-arrow-up"></i>';
+            controlWrapper.appendChild(upButton);
+
+            google.maps.event.addDomListener(upButton, 'click', function() {
+                kth.lat += 0.005;
+                map.panTo(kth);
+                console.log(kth);
+            });
+
+            //Set downButton
+            var downButton = document.createElement('button');
+            downButton.setAttribute("class","btn btn-success");
+            downButton.innerHTML='<i class="fas fa-arrow-down"></i>';
+            controlWrapper.appendChild(downButton);
+
+            google.maps.event.addDomListener(downButton, 'click', function() {
+                kth.lat -= 0.005;
+                map.panTo(kth);
+                console.log(kth);
+            });
+
+        }
+        function resizeMap(div, map) {
+            var myMap = map;
+            var style = myMap.style.height; 
+            var welcome=document.getElementById('welcome');
+            div.style.padding = '5px';
+            // Set CSS for the control wrapper
+            var controlWrapper = document.createElement('div');
+            controlWrapper.style.cursor = 'pointer';
+            controlWrapper.style.textAlign = 'center';
+            div.appendChild(controlWrapper);
+
+           
+            var resizeButton = document.createElement('button');
+            resizeButton.setAttribute("class","btn btn-success");
+            resizeButton.innerHTML='<i class="fas fa-arrows-alt"></i>';
+            controlWrapper.appendChild(resizeButton);
+
+            google.maps.event.addDomListener(resizeButton, 'click', function() {
+                myMap.style.height ="100%";
+                myMap.style.width ="100%";
+                myMap.style.marginLeft = "0%";
+                myMap.style.marginRight = "0%";
+                welcome.style.display = 'none'; 
+            });
+       
+
+            var resizeButtonDown = document.createElement('button');
+            resizeButtonDown.setAttribute("class","btn btn-success");
+            resizeButtonDown.innerHTML='<i class="fas fa-compress-arrows-alt"></i>';
+            controlWrapper.appendChild(resizeButtonDown);
+
+            google.maps.event.addDomListener(resizeButtonDown, 'click', function() {
+                myMap.style.height= "60%";
+                myMap.style.width= "80%";
+                myMap.style.marginLeft= "10%";
+                myMap.style.marginRight= "2.5%";
+                welcome.style.display = 'block';   
+            });
+
+            }
+        function favPlaceElin(map){
+            var buttonDiv = document.getElementById('buttons'); 
+            var buttonElin = document.createElement('button');
+            buttonDiv.appendChild(buttonElin);
+            buttonElin.setAttribute("class","btn btn-success");
+            buttonElin.setAttribute("id","elin_btn");
+            buttonElin.innerHTML = "Elin";
+            google.maps.event.addDomListener(buttonElin, 'click', function() {
+                var elinsFav = new google.maps.LatLng(59.312548, 18.09218)
+                map.setCenter(elinsFav);
+               
+            });
+        }
+        function favPlaceLovisa(map){
+            var buttonDiv = document.getElementById('buttons'); 
+            var buttonLovisa = document.createElement('button');
+            buttonDiv.appendChild(buttonLovisa);
+            buttonLovisa.setAttribute("class","btn btn-success");
+            buttonLovisa.setAttribute("id","lovisa_btn");
+            buttonLovisa.innerHTML = "Lovisa";
+            google.maps.event.addDomListener(buttonLovisa, 'click', function() {
+                var lovisasFav = new google.maps.LatLng(59.3466, 18.0616)
+                map.setCenter(lovisasFav);
+                
+            });
+        }
+
+        function geoLocation(infoWindow,map){
+            var buttonDiv = document.getElementById('buttons'); 
+            var geolocationBtn = document.createElement('button');
+            buttonDiv.appendChild(geolocationBtn);
+            geolocationBtn.setAttribute("class","btn btn-success");
+            geolocationBtn.setAttribute("id","curr_location");
+            geolocationBtn.innerHTML = "Current position";
+            google.maps.event.addDomListener(geolocationBtn, 'click', function() {
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                    };
+
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent('Location found.');
+                    infoWindow.open(map);
+                    map.setCenter(pos);
+                }, function() {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                 });
+            } else {
+            // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+                }
+            });
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                            'Error: The Geolocation service failed.' :
+                            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+
+        }
+        function initMap() {
+            var mapDiv = document.getElementById('map');
+                
+            var mapOptions = {
+                zoom: 15,
+                center: kth,
+                mapTypeId: 'roadmap',
+                disableDefaultUI: true,
+                //fullscreenControl: true
+            }
+            infoWindow = new google.maps.InfoWindow;
+            map = new google.maps.Map(mapDiv, mapOptions);
+            marker = new google.maps.Marker({
+            position: kth,
+            draggable: true,
+            animation: google.maps.Animation.DROP,
+            map: map,
+            });
+
+            marker.addListener('click', toggleBounce);
+
+            function toggleBounce() {
+                if (marker.getAnimation() !== null) {
+                    marker.setAnimation(null);
+                } else {
+                    marker.setAnimation(google.maps.Animation.BOUNCE);
+                }
+            }
+
+            function drop() {
+                for (var i =0; i < markerArray.length; i++) {
+                    setTimeout(function() {
+                    addMarkerMethod();
+                    }, i * 200);
+                }
+                }
+
+            // Create the DIV to hold the control and call the ZoomControl() constructor
+            // passing in this DIV.
+            var zoomControlDiv = document.createElement('div');
+            var zoomControl = new ZoomControl(zoomControlDiv, map);
+
+            zoomControlDiv.index = 1;
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(zoomControlDiv);
+
+            var panControlDiv = document.createElement('div');
+            var panControl = new PanControl(panControlDiv, map);
+
+            zoomControlDiv.index = 1;
+            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(panControlDiv);
+
+            var resizeDiv = document.createElement('div');
+            var resize = new resizeMap(resizeDiv,mapDiv);
+            zoomControlDiv.index = 1;
+            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(resizeDiv);
+            
+            var iconBase =
+            'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
+
+            var icons = {
+            parking: {
+                icon: iconBase + 'parking_lot_maps.png'
+                    },
+            library: {
+                icon: iconBase + 'library_maps.png'
+                    },
+            info: {
+                icon: iconBase + 'info-i_maps.png'
+                }
+        };
+
+        var features = [
+          {
+            position: new google.maps.LatLng(59.3466,18.0616), //birger jarlsgatan
+            type: 'info'
+          }, {
+            position: new google.maps.LatLng(59.312548, 18.09218),//skånegatan
+            type: 'info'
+          },
+        ];
+
+        //set markers
+        for (var i = 0; i < features.length; i++) {
+          var marker = new google.maps.Marker({
+            position: features[i].position,
+            icon: icons[features[i].type].icon,
+            map: map
+          });
+        };
+        
+        
+       favPlaceElin(map);
+       favPlaceLovisa(map);
+       geoLocation(infoWindow,map);
+
+      
+
+        // Try HTML5 geolocation.
+       
+        }
+
+
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXW7298OxzGsPqEOqOHOtgyPlIUQtN2Y&callback=initMap"
+        async defer></script>
+  </body>
+</html>

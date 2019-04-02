@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>test Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 50%;
+        margin: 20px;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+      <button type="button" class="btn btn-primary" onclick="HandleZoomIn(mapObject)">Zoom in</button>
+      <button type="button" class="btn btn-primary" onclick="HandleZoomOut(mapObject)">Zoom out</button>
+    <div id="map"></div>
+    <script>
+      var map;
+
+      function HandleZoomIn(mapObject){
+        google.maps.event.addDomListener(zoomInButton, 'click', function(){
+          map.setZoom(map.getZoom()+1);
+        })
+        
+        //mapObject.zoom += 1;
+        //initMap();
+      }
+
+      function HandleZoomOut(mapObject){
+        mapObject.zoom -= 1;
+        initMap();
+      }
+
+      /*
+      function ZoomControl(zoomControlDiv, map){
+        var zoom = document.createElement('div');
+        zoomControlDiv.appendChild(zoom);
+        var zoomInButton = document.createElement('div');
+        zoomInButton.style.width = '32px';
+        zoomInButton.style.height = '32px';
+        zoom.appendChild(zoomInButton);
+
+       
+
+        google.maps.event.addDomListener(zoomInButton, 'click', function(){
+          map.setZoom(map.getZoom()+1);
+        })
+      }*/
+
+      var mapObject = {
+          center: {lat: 59.3498092, lng: 18.0684758},
+          zoom: 15,
+          mapTypeId: 'satellite'
+          }
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), mapObject);
+        map.setTilt(45);
+
+      var zoomControlDiv = document.createElement('div');
+      var zoomControl = new ZoomControl(zoomControlDiv, map);
+
+      zoomControlDiv.index = 1;
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(zoomControlDiv);
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJXW7298OxzGsPqEOqOHOtgyPlIUQtN2Y&callback=initMap"
+    async defer></script>
+  </body>
+</html>
+
+
