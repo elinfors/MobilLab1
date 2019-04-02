@@ -2,7 +2,7 @@
   "name": "Your Great Site",
   "short_name": "Map",
   "description": "Learn how to create and share something or other.",
-  "start_url": "lab1.html",
+  "start_url": "index.html",
   "background_color": "#000000",
   "theme_color": "#0f4a73",
   "display": "standalone",
